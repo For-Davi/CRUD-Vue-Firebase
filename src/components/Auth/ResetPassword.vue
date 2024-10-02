@@ -1,11 +1,9 @@
 <script setup lang="ts">
-import { RouterView } from 'vue-router'
-
 defineOptions({
-  name: 'App'
+  name: 'ResetPassword'
 })
 </script>
 
 <template>
-  <RouterView />
+  <div>Reset</div>
 </template>

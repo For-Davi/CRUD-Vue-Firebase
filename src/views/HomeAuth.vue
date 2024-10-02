@@ -1,11 +1,9 @@
 <script setup lang="ts">
-import { RouterView } from 'vue-router'
-
 defineOptions({
-  name: 'App'
+  name: 'HomeAuth'
 })
 </script>
 
 <template>
-  <RouterView />
+  <div>Home</div>
 </template>

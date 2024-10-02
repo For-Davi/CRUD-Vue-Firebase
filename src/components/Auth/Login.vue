@@ -1,11 +1,9 @@
 <script setup lang="ts">
-import { RouterView } from 'vue-router'
-
 defineOptions({
-  name: 'App'
+  name: 'Login'
 })
 </script>
 
 <template>
-  <RouterView />
+  <div>Login</div>
 </template>

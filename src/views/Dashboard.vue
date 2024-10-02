@@ -1,11 +1,9 @@
 <script setup lang="ts">
-import { RouterView } from 'vue-router'
-
 defineOptions({
-  name: 'App'
+  name: 'Dashboard'
 })
 </script>
 
 <template>
-  <RouterView />
+  <div>Dashboard</div>
 </template>

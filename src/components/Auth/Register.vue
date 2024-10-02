@@ -1,11 +1,9 @@
 <script setup lang="ts">
-import { RouterView } from 'vue-router'
-
 defineOptions({
-  name: 'App'
+  name: 'Register'
 })
 </script>
 
 <template>
-  <RouterView />
+  <div>Registrar</div>
 </template>
