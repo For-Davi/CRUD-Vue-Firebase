@@ -1,5 +1,4 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeAuth from '../views/HomeAuth.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -7,25 +6,24 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: HomeAuth
+      component: () => import('@/views/HomeAuth.vue')
     },
     {
-      path: '/',
-      name: 'home',
-      component: () => import('src/layouts/AdminLayout.vue'),
-      children: [
-        {
-          name: 'dashboard',
-          path: '/dashboard',
-          component: () => import('src/views/Dashboard.vue'),
-          props: true,
-          meta: { requiresAuth: true }
-        }
-      ]
+      path: '/dashboard',
+      component: () => import('@/views/Dashboard.vue')
+      // children: [
+      //   {
+      //     name: 'dashboard',
+      //     path: '',
+      //     component: () => import('@/views/Dashboard.vue'),
+      //     props: true,
+      //     meta: { requiresAuth: true }
+      //   }
+      // ]
     },
     {
       path: '/:catchAll(.*)*',
-      component: () => import('src/views/ErrorNotFound.vue')
+      component: () => import('@/views/ErrorNotFound.vue')
     }
   ]
 })

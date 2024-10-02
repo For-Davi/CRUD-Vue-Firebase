@@ -7,5 +7,7 @@ defineOptions({
 </script>
 
 <template>
-  <RouterView />
+  <div class="bg-slate-900 app-container">
+    <RouterView />
+  </div>
 </template>
