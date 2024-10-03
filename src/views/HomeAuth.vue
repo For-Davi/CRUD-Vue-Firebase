@@ -18,6 +18,6 @@ const changeRender = (value: string): void => {
   <section class="h-full flex items-center justify-center">
     <Login v-if="render == 'login'" @update:change-render="changeRender" />
     <ResetPassword v-else-if="render == 'reset'" />
-    <Register v-else />
+    <Register v-else @update:change-render="changeRender" />
   </section>
 </template>

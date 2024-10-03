@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import type { DataLogin } from '@/interfaces/data/Login'
-import { computed, reactive } from 'vue'
+import { loginService } from '@/services/auth'
+import { ElNotification } from 'element-plus'
+import { computed, onMounted, reactive } from 'vue'
+import { useRouter } from 'vue-router'
 
 defineOptions({
   name: 'Login'
@@ -10,6 +13,7 @@ const emit = defineEmits<{
   'update:changeRender': [string]
 }>()
 
+const router = useRouter()
 const dataLogin = reactive<DataLogin>({
   email: '',
   password: ''
@@ -22,6 +26,30 @@ const allowSave = computed(() => {
 const changeRender = (render: string): void => {
   emit('update:changeRender', render)
 }
+const clear = (): void => {
+  Object.assign(dataLogin, {
+    email: '',
+    password: ''
+  })
+}
+const login = async () => {
+  const response = await loginService(dataLogin.email, dataLogin.password)
+  if (response.status) {
+    clear()
+    router.push('/dashboard')
+  }
+  if (!response.status) {
+    ElNotification({
+      title: 'Login',
+      message: 'Erro no login. Verifique as informações',
+      type: 'error'
+    })
+  }
+}
+
+onMounted(() => {
+  clear()
+})
 </script>
 
 <template>
@@ -31,13 +59,13 @@ const changeRender = (render: string): void => {
         <el-image src="/images/logo-dark.png" fit="scale-down" />
       </div>
     </template>
-    <el-form :model="dataLogin">
+    <el-form :model="dataLogin" autocomplete="off">
       <el-form-item>
         <el-input
           v-model="dataLogin.email"
           placeholder="Digite seu e-mail"
           clearable
-          autocomplete="off"
+          autocomplete="new-email"
           prefix-icon="Message"
         />
       </el-form-item>
@@ -46,7 +74,7 @@ const changeRender = (render: string): void => {
           v-model="dataLogin.password"
           placeholder="Digite sua senha"
           clearable
-          autocomplete="off"
+          autocomplete="new-password"
           type="password"
           prefix-icon="Lock"
           show-password
@@ -60,7 +88,7 @@ const changeRender = (render: string): void => {
         </div>
         <div>
           <el-button type="info" @click="changeRender('reset')"> Esqueceu senha </el-button>
-          <el-button type="primary" :disabled="!allowSave"> Entrar </el-button>
+          <el-button type="primary" :disabled="!allowSave" @click="login"> Entrar </el-button>
         </div>
       </div>
     </template>

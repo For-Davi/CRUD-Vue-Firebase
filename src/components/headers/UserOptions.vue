@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { logoutService } from '@/services/auth'
+
 defineOptions({
   name: 'UserOptions'
 })
@@ -9,6 +11,9 @@ const emit = defineEmits<{
 
 const openFormUserSetting = (): void => {
   emit('update:openFormUserSetting', true)
+}
+const logout = async () => {
+  await logoutService()
 }
 </script>
 
@@ -25,7 +30,7 @@ const openFormUserSetting = (): void => {
           </el-icon>
           Configurações
         </el-dropdown-item>
-        <el-dropdown-item>
+        <el-dropdown-item @click="logout">
           <el-icon>
             <SwitchButton />
           </el-icon>
