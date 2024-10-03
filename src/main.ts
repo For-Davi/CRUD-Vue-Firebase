@@ -4,6 +4,7 @@ import { createPinia } from 'pinia'
 import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
+import 'material-icons/iconfont/material-icons.css'
 import App from './App.vue'
 import router from './router'
 

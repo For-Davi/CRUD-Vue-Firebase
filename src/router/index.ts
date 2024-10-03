@@ -11,19 +11,10 @@ const router = createRouter({
     {
       path: '/dashboard',
       component: () => import('@/views/Dashboard.vue')
-      // children: [
-      //   {
-      //     name: 'dashboard',
-      //     path: '',
-      //     component: () => import('@/views/Dashboard.vue'),
-      //     props: true,
-      //     meta: { requiresAuth: true }
-      //   }
-      // ]
     },
     {
       path: '/:catchAll(.*)*',
-      component: () => import('@/views/ErrorNotFound.vue')
+      component: () => import('@/views/error/ErrorNotFound.vue')
     }
   ]
 })
