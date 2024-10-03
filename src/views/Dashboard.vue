@@ -25,6 +25,7 @@ const openFormTask = (): void => {
 }
 const closeFormTask = (): void => {
   showFormTask.value = false
+  taskEdit.value = null
 }
 const openFormUserSetting = (value: boolean): void => {
   showFormUserSetting.value = value
