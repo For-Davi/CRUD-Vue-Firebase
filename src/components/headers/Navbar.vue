@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import UserOptions from './UserOptions.vue'
+import { storeToRefs } from 'pinia'
+import { useAuthStore } from '@/stores/auth'
 
 defineOptions({
   name: 'Navbar'
@@ -10,6 +12,8 @@ const emit = defineEmits<{
   'update:openFormUserSetting': [boolean]
   'update:openFormTask': [void]
 }>()
+
+const { user } = storeToRefs(useAuthStore())
 
 const openFormUserSetting = (value: boolean): void => {
   emit('update:openFormUserSetting', value)
@@ -24,11 +28,11 @@ const searchCard = ref<string>('')
 
 <template>
   <nav class="bg-slate-900 flex justify-between items-center p-2">
-    <div class="flex flex-row items-center">
-      <div class="w-[50%] bg-red">
-        <el-image src="/images/logo-dark.png" fit="scale-down" class="logo" />
+    <div class="flex flex-row items-center basis-1/3">
+      <div>
+        <el-image src="/images/logo-light.png" fit="scale-down" class="logo" />
       </div>
-      <span class="text-white text-2xl ml-8">Olá, Davi !</span>
+      <span class="text-white text-2xl ml-8 truncate">{{ `Olá, ${user?.displayName} !` }} </span>
     </div>
     <div class="flex justify-between items-center">
       <el-input

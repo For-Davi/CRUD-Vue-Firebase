@@ -4,6 +4,8 @@ import { loginService } from '@/services/auth'
 import { ElNotification } from 'element-plus'
 import { computed, onMounted, reactive } from 'vue'
 import { useRouter } from 'vue-router'
+import { useAuthStore } from '@/stores/auth'
+import { storeToRefs } from 'pinia'
 
 defineOptions({
   name: 'Login'
@@ -12,6 +14,8 @@ defineOptions({
 const emit = defineEmits<{
   'update:changeRender': [string]
 }>()
+
+const { loadingAuth } = storeToRefs(useAuthStore())
 
 const router = useRouter()
 const dataLogin = reactive<DataLogin>({
@@ -67,6 +71,7 @@ onMounted(() => {
           clearable
           autocomplete="new-email"
           prefix-icon="Message"
+          :disabled="loadingAuth"
         />
       </el-form-item>
       <el-form-item>
@@ -78,17 +83,24 @@ onMounted(() => {
           type="password"
           prefix-icon="Lock"
           show-password
+          :disabled="loadingAuth"
         />
       </el-form-item>
     </el-form>
     <template #footer>
       <div class="flex justify-between">
         <div>
-          <el-button @click="changeRender('register')">Criar conta</el-button>
+          <el-button @click="changeRender('register')" :disabled="loadingAuth"
+            >Criar conta</el-button
+          >
         </div>
         <div>
-          <el-button type="info" @click="changeRender('reset')"> Esqueceu senha </el-button>
-          <el-button type="primary" :disabled="!allowSave" @click="login"> Entrar </el-button>
+          <el-button type="info" @click="changeRender('reset')" :disabled="loadingAuth">
+            Esqueceu senha
+          </el-button>
+          <el-button type="primary" :disabled="!allowSave" :loading="loadingAuth" @click="login">
+            Entrar
+          </el-button>
         </div>
       </div>
     </template>

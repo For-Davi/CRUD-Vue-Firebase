@@ -3,6 +3,8 @@ import type { DataRegister } from '@/interfaces/data/Login'
 import { createUserService } from '@/services/auth'
 import { computed, onMounted, reactive, ref, watch } from 'vue'
 import { ElNotification } from 'element-plus'
+import { useAuthStore } from '@/stores/auth'
+import { storeToRefs } from 'pinia'
 
 defineOptions({
   name: 'Register'
@@ -12,6 +14,7 @@ const emit = defineEmits<{
   'update:changeRender': [string]
 }>()
 
+const { loadingAuth } = storeToRefs(useAuthStore())
 const emailRegex = ref<RegExp>(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)
 const errorMessage = ref<string>('')
 const dataRegister = reactive<DataRegister>({
@@ -129,6 +132,7 @@ onMounted(() => {
             clearable
             autocomplete="new-name"
             prefix-icon="User"
+            :disabled="loadingAuth"
           />
         </el-form-item>
         <el-form-item>
@@ -138,6 +142,7 @@ onMounted(() => {
             clearable
             autocomplete="new-email"
             prefix-icon="Message"
+            :disabled="loadingAuth"
           />
         </el-form-item>
         <el-form-item>
@@ -148,6 +153,7 @@ onMounted(() => {
             autocomplete="new-password"
             type="password"
             prefix-icon="Lock"
+            :disabled="loadingAuth"
           />
         </el-form-item>
         <el-form-item>
@@ -158,17 +164,22 @@ onMounted(() => {
             autocomplete="new-password"
             type="password"
             prefix-icon="Lock"
+            :disabled="loadingAuth"
           />
         </el-form-item>
       </el-form>
       <template #footer>
         <div class="flex justify-between">
           <div>
-            <el-button @click="changeRender('reset')"> Esqueceu senha </el-button>
+            <el-button @click="changeRender('reset')" :disabled="loadingAuth">
+              Esqueceu senha
+            </el-button>
           </div>
           <div>
-            <el-button @click="changeRender('login')"> Entrar </el-button>
-            <el-button type="primary" @click="createUser"> Salvar </el-button>
+            <el-button @click="changeRender('login')" :disabled="loadingAuth"> Entrar </el-button>
+            <el-button type="primary" @click="createUser" :loading="loadingAuth">
+              Salvar
+            </el-button>
           </div>
         </div>
       </template>
