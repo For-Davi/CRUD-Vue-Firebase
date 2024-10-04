@@ -2,7 +2,7 @@
 import FormUserSetting from '@/components/forms/FormUserSetting.vue'
 import FormTask from '@/components/forms/FormTask.vue'
 import Navbar from '@/components/headers/Navbar.vue'
-import { reactive, ref, watch } from 'vue'
+import { onMounted, onUnmounted, reactive, ref, watch } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useTaskStore } from '@/stores/task'
 import { getTasksByUserId } from '@/services/tasks'
@@ -21,6 +21,7 @@ const showFormUserSetting = ref<boolean>(false)
 const taskEdit = ref<ObjectDataTask | null>(null)
 const filterTask = ref<string>('')
 const filtered = reactive<Array<ObjectDataTask>>([])
+const widthScreen = ref<number>(0)
 
 const openFormTask = (): void => {
   showFormTask.value = true
@@ -37,6 +38,17 @@ const closeFormUserSetting = (): void => {
 }
 const fetchAllCards = async () => {
   const result: Array<ObjectDataTask> = (await getTasksByUserId(user.value?.uid!)) || []
+  result.sort((a, b) => {
+    if (a.status === 'Pendente' && b.status !== 'Pendente') {
+      return -1
+    }
+    if (a.status !== 'Pendente' && b.status === 'Pendente') {
+      return 1
+    }
+    return 0
+  })
+
+  task.value = result
   task.value = result
 }
 const openEdit = (value: ObjectDataTask) => {
@@ -58,6 +70,9 @@ const searchTask = (value: string): void => {
     result.map((item) => filtered.push(item))
   }
 }
+const checkScreenSize = (): void => {
+  widthScreen.value = window.innerWidth
+}
 
 watch(
   () => user.value?.uid,
@@ -68,6 +83,14 @@ watch(
   },
   { immediate: true }
 )
+
+onMounted(() => {
+  window.addEventListener('resize', checkScreenSize)
+  checkScreenSize()
+})
+onUnmounted(() => {
+  window.removeEventListener('resize', checkScreenSize)
+})
 </script>
 
 <template>
@@ -77,31 +100,33 @@ watch(
       @update:open-form-task="openFormTask"
       @update:search-task="searchTask"
     />
-    <main>
-      <div>
-        <el-progress
-          :stroke-width="3"
-          :percentage="100"
-          :indeterminate="loadingTask"
-          :show-text="false"
-        />
-      </div>
-      <el-empty v-if="task.length == 0" description="Você não tem cartões criados">
-        <el-button type="primary" icon="plus" @click="openFormTask">Criar agora</el-button>
-      </el-empty>
-      <div v-else class="p-2 flex flex-row flex-wrap">
-        <div v-for="(item, index) in filterTask != '' ? filtered : task" :key="index" class="m-2">
-          <TaskCard
-            :title="item.title"
-            :description="item.description"
-            :id="item.id"
-            :status="item.status"
-            :loading="loadingTask"
-            @update:show-edit="openEdit"
-          />
+    <el-scrollbar :max-height="widthScreen > 768 ? 'calc(100vh - 56px)' : 'calc(100vh - 220px)'">
+      <el-progress
+        :stroke-width="3"
+        :percentage="100"
+        :indeterminate="loadingTask"
+        :show-text="false"
+      />
+      <main class="w-full flex justify-center">
+        <div v-if="task.length == 0" class="w-[95%]">
+          <el-empty description="Você não tem cartões criados">
+            <el-button type="primary" icon="plus" @click="openFormTask">Criar agora</el-button>
+          </el-empty>
         </div>
-      </div>
-    </main>
+        <div v-else class="px-8 py-2 flex flex-row flex-wrap justify-center">
+          <div v-for="(item, index) in filterTask != '' ? filtered : task" :key="index" class="m-2">
+            <TaskCard
+              :title="item.title"
+              :description="item.description"
+              :id="item.id"
+              :status="item.status"
+              :loading="loadingTask"
+              @update:show-edit="openEdit"
+            />
+          </div>
+        </div>
+      </main>
+    </el-scrollbar>
     <FormTask :open="showFormTask" :task-edit="taskEdit" @update:close="closeFormTask" />
     <FormUserSetting :open="showFormUserSetting" @update:close="closeFormUserSetting" />
   </section>

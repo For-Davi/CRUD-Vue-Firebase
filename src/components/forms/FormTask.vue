@@ -103,7 +103,7 @@ watch(open, () => {
 </script>
 
 <template>
-  <el-dialog v-model="open" title="Cadastro de cartão" width="600">
+  <el-dialog v-model="open" title="Cadastro de cartão" width="600" style="max-width: 90%">
     <el-form :model="dataTask">
       <el-form-item>
         <el-input

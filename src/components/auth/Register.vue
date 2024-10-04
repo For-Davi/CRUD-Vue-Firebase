@@ -117,8 +117,8 @@ onMounted(() => {
 </script>
 
 <template>
-  <div>
-    <el-card style="width: 500px">
+  <div class="flex justify-center">
+    <el-card style="width: 500px; max-width: 90%">
       <template #header>
         <div class="card-header w-[50%] mx-auto">
           <el-image src="/images/logo-dark.png" fit="scale-down" />

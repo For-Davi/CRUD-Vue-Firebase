@@ -118,7 +118,7 @@ watch(open, () => {
 </script>
 
 <template>
-  <el-dialog v-model="open" title="Configurações do perfil" width="600">
+  <el-dialog v-model="open" title="Configurações do perfil" width="600" style="max-width: 90%">
     <el-form :model="dataUser" class="flex flex-col items-center">
       <span class="el-dropdown-link w-full flex items-center justify-center py-2">
         <el-tooltip class="box-item" effect="dark" content="Alterar foto" placement="top-start">
