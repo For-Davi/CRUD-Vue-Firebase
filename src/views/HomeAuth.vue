@@ -17,7 +17,7 @@ const changeRender = (value: string): void => {
 <template>
   <section class="h-full flex items-center justify-center">
     <Login v-if="render == 'login'" @update:change-render="changeRender" />
-    <ResetPassword v-else-if="render == 'reset'" />
+    <ResetPassword v-else-if="render == 'reset'" @update:change-render="changeRender" />
     <Register v-else @update:change-render="changeRender" />
   </section>
 </template>

@@ -2,10 +2,10 @@ import {
   createUserWithEmailAndPassword,
   updateProfile,
   signInWithEmailAndPassword,
-  updateEmail,
   EmailAuthProvider,
   reauthenticateWithCredential,
-  sendEmailVerification
+  getAuth,
+  sendPasswordResetEmail
 } from 'firebase/auth'
 import { auth, db } from '@/firebaseConfig'
 import { storeToRefs } from 'pinia'
@@ -147,5 +147,16 @@ export const logoutService = async () => {
     return { status: false, message: error.message }
   } finally {
     loadingAuth.value = false
+  }
+}
+export const sendEmailService = async (email: string) => {
+  try {
+    const auth = getAuth()
+
+    await sendPasswordResetEmail(auth, email)
+
+    return { status: true, message: 'Email de redefinição de senha enviado com sucesso' }
+  } catch (error) {
+    return { status: false, message: 'Erro ao enviar e-mail de redefinição de senha' }
   }
 }
