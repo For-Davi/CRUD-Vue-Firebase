@@ -5,7 +5,5 @@ export const useTaskStore = defineStore('task', {
   state: () => ({
     loadingTask: false,
     task: [] as Array<ObjectDataTask>
-  }),
-
-  actions: {}
+  })
 })

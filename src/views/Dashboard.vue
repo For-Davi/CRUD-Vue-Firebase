@@ -49,7 +49,6 @@ const fetchAllCards = async () => {
   })
 
   task.value = result
-  task.value = result
 }
 const openEdit = (value: ObjectDataTask) => {
   taskEdit.value = value
@@ -107,7 +106,7 @@ onUnmounted(() => {
         :indeterminate="loadingTask"
         :show-text="false"
       />
-      <main class="w-full flex justify-center">
+      <main class="w-full flex lg:justify-start justify-center">
         <div v-if="task.length == 0" class="w-[95%]">
           <el-empty description="Você não tem cartões criados">
             <el-button type="primary" icon="plus" @click="openFormTask">Criar agora</el-button>

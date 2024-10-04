@@ -44,6 +44,15 @@ export const createTaskService = async (payload: NewDataTask) => {
     await addDoc(collection(db, 'task'), payload)
 
     const result: Array<ObjectDataTask> = (await getTasksByUserId(payload.userId)) || []
+    result.sort((a, b) => {
+      if (a.status === 'Pendente' && b.status !== 'Pendente') {
+        return -1
+      }
+      if (a.status !== 'Pendente' && b.status === 'Pendente') {
+        return 1
+      }
+      return 0
+    })
     task.value = result
 
     return { status: true, message: 'Tarefa criada com sucesso' }
@@ -61,6 +70,15 @@ export const setTaskStatusFinalizedService = async (id: string) => {
     })
 
     const result: Array<ObjectDataTask> = (await getTasksByUserId(user.value?.uid!)) || []
+    result.sort((a, b) => {
+      if (a.status === 'Pendente' && b.status !== 'Pendente') {
+        return -1
+      }
+      if (a.status !== 'Pendente' && b.status === 'Pendente') {
+        return 1
+      }
+      return 0
+    })
     task.value = result
 
     return { status: true, message: 'Tarefa atualizada como finalizada' }
@@ -78,6 +96,15 @@ export const setTaskStatusPendentService = async (id: string) => {
     })
 
     const result: Array<ObjectDataTask> = (await getTasksByUserId(user.value?.uid!)) || []
+    result.sort((a, b) => {
+      if (a.status === 'Pendente' && b.status !== 'Pendente') {
+        return -1
+      }
+      if (a.status !== 'Pendente' && b.status === 'Pendente') {
+        return 1
+      }
+      return 0
+    })
     task.value = result
 
     return { status: true, message: 'Tarefa atualizada como pendente' }
@@ -96,6 +123,15 @@ export const updateTaskService = async (payload: ObjectDataTask) => {
     })
 
     const result: Array<ObjectDataTask> = (await getTasksByUserId(user.value?.uid!)) || []
+    result.sort((a, b) => {
+      if (a.status === 'Pendente' && b.status !== 'Pendente') {
+        return -1
+      }
+      if (a.status !== 'Pendente' && b.status === 'Pendente') {
+        return 1
+      }
+      return 0
+    })
     task.value = result
 
     return { status: true, message: 'Tarefa atualizada como pendente' }
@@ -111,6 +147,15 @@ export const deleteTaskService = async (id: string) => {
     await deleteDoc(doc(db, 'task', id))
 
     const result: Array<ObjectDataTask> = (await getTasksByUserId(user.value?.uid!)) || []
+    result.sort((a, b) => {
+      if (a.status === 'Pendente' && b.status !== 'Pendente') {
+        return -1
+      }
+      if (a.status !== 'Pendente' && b.status === 'Pendente') {
+        return 1
+      }
+      return 0
+    })
     task.value = result
 
     return { status: true, message: 'Tarefa deletada com sucesso' }
