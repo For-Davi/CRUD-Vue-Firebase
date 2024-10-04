@@ -2,7 +2,7 @@
 import FormUserSetting from '@/components/forms/FormUserSetting.vue'
 import FormTask from '@/components/forms/FormTask.vue'
 import Navbar from '@/components/headers/Navbar.vue'
-import { ref, watch } from 'vue'
+import { reactive, ref, watch } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useTaskStore } from '@/stores/task'
 import { getTasksByUserId } from '@/services/tasks'
@@ -19,6 +19,8 @@ const { task, loadingTask } = storeToRefs(useTaskStore())
 const showFormTask = ref<boolean>(false)
 const showFormUserSetting = ref<boolean>(false)
 const taskEdit = ref<ObjectDataTask | null>(null)
+const filterTask = ref<string>('')
+const filtered = reactive<Array<ObjectDataTask>>([])
 
 const openFormTask = (): void => {
   showFormTask.value = true
@@ -41,6 +43,21 @@ const openEdit = (value: ObjectDataTask) => {
   taskEdit.value = value
   openFormTask()
 }
+const searchTask = (value: string): void => {
+  filterTask.value = value
+  filtered.splice(0, filtered.length)
+  if (value == '') {
+    filtered.splice(0, filtered.length)
+  } else {
+    const result = task.value.filter((item) => {
+      return (
+        item.title.toLowerCase().includes(value.toLowerCase()) ||
+        item.description.toLowerCase().includes(value.toLowerCase())
+      )
+    })
+    result.map((item) => filtered.push(item))
+  }
+}
 
 watch(
   () => user.value?.uid,
@@ -58,6 +75,7 @@ watch(
     <Navbar
       @update:open-form-user-setting="openFormUserSetting"
       @update:open-form-task="openFormTask"
+      @update:search-task="searchTask"
     />
     <main>
       <div>
@@ -72,7 +90,7 @@ watch(
         <el-button type="primary" icon="plus" @click="openFormTask">Criar agora</el-button>
       </el-empty>
       <div v-else class="p-2 flex flex-row flex-wrap">
-        <div v-for="(item, index) in task" :key="index" class="m-2">
+        <div v-for="(item, index) in filterTask != '' ? filtered : task" :key="index" class="m-2">
           <TaskCard
             :title="item.title"
             :description="item.description"

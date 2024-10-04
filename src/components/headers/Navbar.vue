@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import UserOptions from './UserOptions.vue'
 import { storeToRefs } from 'pinia'
 import { useAuthStore } from '@/stores/auth'
@@ -11,6 +11,7 @@ defineOptions({
 const emit = defineEmits<{
   'update:openFormUserSetting': [boolean]
   'update:openFormTask': [void]
+  'update:searchTask': [string]
 }>()
 
 const { user } = storeToRefs(useAuthStore())
@@ -24,6 +25,14 @@ const openFormTask = (): void => {
 }
 
 const searchCard = ref<string>('')
+
+watch(
+  searchCard,
+  () => {
+    emit('update:searchTask', searchCard.value)
+  },
+  { immediate: true }
+)
 </script>
 
 <template>
