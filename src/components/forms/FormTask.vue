@@ -74,7 +74,7 @@ const save = async () => {
     if (response.status) {
       ElNotification({
         title: 'Tarefa',
-        message: 'Tarefa incluída',
+        message: response.message,
         type: 'success'
       })
       clear()

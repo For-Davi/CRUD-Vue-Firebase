@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { logoutService } from '@/services/auth'
+import { useAuthStore } from '@/stores/auth'
+import { storeToRefs } from 'pinia'
 
 defineOptions({
   name: 'UserOptions'
@@ -8,6 +10,8 @@ defineOptions({
 const emit = defineEmits<{
   'update:openFormUserSetting': [boolean]
 }>()
+
+const { user, loadingAuth } = storeToRefs(useAuthStore())
 
 const openFormUserSetting = (): void => {
   emit('update:openFormUserSetting', true)
@@ -18,9 +22,9 @@ const logout = async () => {
 </script>
 
 <template>
-  <el-dropdown trigger="click">
-    <span class="el-dropdown-link">
-      <el-avatar src="/images/user.png" />
+  <el-dropdown trigger="click" v-show="!loadingAuth && user?.uid">
+    <span class="el-dropdown-link cursor-pointer hover:opacity-70">
+      <el-avatar :src="user?.photoURL ? user.photoURL : '/images/user.png'" />
     </span>
     <template #dropdown>
       <el-dropdown-menu>

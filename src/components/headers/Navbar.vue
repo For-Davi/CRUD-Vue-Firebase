@@ -32,7 +32,9 @@ const searchCard = ref<string>('')
       <div>
         <el-image src="/images/logo-light.png" fit="scale-down" class="logo" />
       </div>
-      <span class="text-white text-2xl ml-8 truncate">{{ `Olá, ${user?.displayName} !` }} </span>
+      <span class="text-white text-2xl ml-8 truncate"
+        >{{ user?.displayName ? `Olá, ${user?.displayName} !` : '' }}
+      </span>
     </div>
     <div class="flex justify-between items-center">
       <el-input
