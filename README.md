@@ -23,6 +23,8 @@ O projeto foi desenvolvido utilizando as seguintes tecnologias:
 - **Tailwind CSS**: Framework CSS utilitário que facilita o desenvolvimento responsivo.
 - **Element UI**: Um framework de componentes baseados em Vue.js.
 - **TypeScript**: Superconjunto de JavaScript que adiciona tipagem estática ao projeto.
+- **ESLint**: Ferramenta de linting para JavaScript e outras linguagens que ajuda a identificar e corrigir problemas no código, seguindo regras de estilo e boas práticas.
+- **Prettier**:Um formatador de código opinativo que garante um estilo consistente ao reformatar o código automaticamente.
 - **Firebase**:
   - **Firebase Auth**: Para autenticação de usuários.
   - **Firestore**: Banco de dados NoSQL utilizado para armazenar os cards de tarefas.
