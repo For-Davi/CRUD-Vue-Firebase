@@ -2,6 +2,10 @@
 
 Este projeto é um sistema de gerenciamento de tarefas desenvolvido com **Vue 3 com Vite** e **Firebase**. Ele permite que os usuários registrem-se, façam login, redefinam suas senhas e, após autenticados, possam gerenciar suas tarefas através de um sistema de **cards**.
 
+## Hospedagem
+
+URL de Hospedagem: [Clique aqui](https://operandbr-6c4b8.web.app/) ou acesse: https://operandbr-6c4b8.web.app/
+
 ## Funcionalidades Principais
 
 - **Registro, Login e Redefinição de Senha**: O usuário pode se registrar, fazer login e redefinir sua senha diretamente no sistema.
